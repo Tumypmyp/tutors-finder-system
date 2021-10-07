@@ -2,7 +2,6 @@ package user.filter;
 
 import user.Tutor;
 
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.function.Predicate;
@@ -14,7 +13,7 @@ public class FilterByRating implements Filter {
     private final boolean incr;
 
     public FilterByRating() {
-        this(0, 10, true);
+        this(0, 100, true);
     }
 
     public FilterByRating(int from, int to, boolean incr) {
@@ -29,10 +28,6 @@ public class FilterByRating implements Filter {
         List<Tutor> result = tutors.stream().filter(byRating)
                 .sorted(Comparator.comparing(Tutor::getRating))
                 .collect(Collectors.toList());
-//        if (incr)
-//            Collections.sort(result);
-//        else
-//            Collections.sort(result, Collections.reverseOrder());
         return result;
     }
 

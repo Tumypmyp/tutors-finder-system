@@ -1,7 +1,7 @@
 package user;
 
 public class User {
-    private String username;
+    private final String username;
     private String password;
     protected DataBase db;
 
@@ -18,7 +18,4 @@ public class User {
     public String getUsername() {
         return username;
     }
-//    protected DataBase getTutors() {return db.;}
-
-
 }

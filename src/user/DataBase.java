@@ -1,5 +1,7 @@
 package user;
 
+import user.*;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -7,6 +9,8 @@ import java.util.List;
 public class DataBase {
     private HashMap<String, User> users = new HashMap<>();
     private List<Tutor> tutors = new ArrayList<>();
+    private List<Parent> parents = new ArrayList<>();
+    public List<Book> books = new ArrayList<>();
 
     User login(String username, String password) {
         if (users.get(username) != null && users.get(username).checkPassword(password)) {
@@ -14,7 +18,8 @@ public class DataBase {
         }
         return null;
     }
-
+    
+    //    Factory method
     public User register(String username, String password, String userType) {
         if (users.get(username) != null) {
             System.out.println("Error: username already exists");
@@ -26,7 +31,11 @@ public class DataBase {
         }
         User user = null;
         switch (userType) {
-            case "Parent" -> user = new Parent(username, password, this);
+            case "Parent" -> {
+                Parent parent = new Parent(username, password, this);
+                parents.add(parent);
+                user = parent;
+            }
             case "Tutor" -> {
                 user = new Tutor(username, password, this);
                 tutors.add((Tutor) user);
@@ -45,5 +54,8 @@ public class DataBase {
         return tutors;
     }
 
+    public List<Parent> getParents() {
+        return parents;
+    }
 
 }
