@@ -1,6 +1,7 @@
 package user;
 
 import book.Readable;
+import database.DataBase;
 import filter.Filter;
 import filter.FilterByName;
 import filter.FilterByRating;

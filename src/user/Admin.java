@@ -3,6 +3,7 @@ package user;
 import book.Book;
 import book.Category;
 import book.Readable;
+import database.DataBase;
 
 import java.util.List;
 
@@ -21,7 +22,6 @@ public class Admin extends User {
 
     public Category makeCategory(String name, List<Readable> c) {
         return new Category(name, c);
-
     }
 
     public List<Parent> getParents() {

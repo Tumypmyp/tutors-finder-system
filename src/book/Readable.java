@@ -1,6 +1,6 @@
 package book;
 
-// composite pattern
+// COMPOSITE pattern: Component
 public interface Readable {
-    public String read();
+    String read();
 }

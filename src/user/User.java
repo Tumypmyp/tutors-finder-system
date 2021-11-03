@@ -1,5 +1,7 @@
 package user;
 
+import database.DataBase;
+
 public class User {
     private final String username;
     private String password;

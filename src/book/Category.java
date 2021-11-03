@@ -3,13 +3,14 @@ package book;
 import java.util.ArrayList;
 import java.util.List;
 
+// COMPOSITE pattern: Composite
 public class Category implements Readable {
     private String name;
     private List<Readable> content = new ArrayList<>();
 
-    public Category(String name, List<Readable> c) {
+    public Category(String name, List<Readable> content) {
         this.name = name;
-        content.addAll(c);
+        this.content.addAll(content);
     }
 
     public String read() {

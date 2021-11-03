@@ -1,5 +1,6 @@
 package book;
 
+// COMPOSITE pattern: Leaf
 public class Book implements Readable {
     public String name;
     public String author;
