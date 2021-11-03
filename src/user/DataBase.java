@@ -1,6 +1,6 @@
 package user;
 
-import user.*;
+import user.book.Readable;
 
 import java.util.ArrayList;
 import java.util.HashMap;

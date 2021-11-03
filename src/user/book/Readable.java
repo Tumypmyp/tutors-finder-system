@@ -1,4 +1,4 @@
-package user;
+package user.book;
 
 // composite pattern
 public interface Readable {

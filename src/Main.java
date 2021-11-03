@@ -1,5 +1,6 @@
 import user.*;
-import user.Readable;
+import user.book.Book;
+import user.book.Category;
 import user.filter.Filter;
 
 import java.util.Arrays;
@@ -51,13 +52,13 @@ public class Main {
         db.books = new Category("all books", Arrays.asList(book1, SSADCategory, book4));
 
 //        prining all books
-        System.out.println("\n\tTesting get all books function:\n");
+        System.out.println("\n\tTesting get all books function with Composite pattern:\n");
         System.out.println(db.books.read());
 
-        System.out.println("\n\tTesting get only SSAD books function:\n");
+        System.out.println("\n\tTesting get books from a category function:\n");
         System.out.println(SSADCategory.read());
-
 //
+
 //        testing parents functionality
         List<Parent> parents = admin.getParents();
         par = parents.get(0);
