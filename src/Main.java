@@ -1,9 +1,8 @@
-import user.Admin;
-import user.DataBase;
-import user.Parent;
-import user.Tutor;
+import user.*;
+import user.Readable;
 import user.filter.Filter;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class Main {
@@ -39,16 +38,33 @@ public class Main {
 
 //        adding admin
         Admin admin = (Admin) db.register("administrator", "987654321", "Admin");
-        admin.addBook("The History of Science", "Merlin H.", 2013, 300);
-        admin.addBook("Design Patterns", "Erich Gamma", 1994, 395);
         admin.addTutor("Misha", "11111111");
 
+
+//        testing new COMPOSITE PATTERN
+//        making books and categories
+        Book book1 = admin.makeBook("The History of Science", "Merlin H.", 2013, 300);
+        Book book2 = admin.makeBook("Design Patterns", "Erich Gamma", 1994, 395);
+        Book book3 = admin.makeBook("Design Patterns (Java)", "Erich Gamma", 2003, 455);
+        Category SSADCategory = admin.makeCategory("SSAD", Arrays.asList(book2, book3));
+        Book book4 = admin.makeBook("book1", "author1", 2000, 200);
+        db.books = new Category("all books", Arrays.asList(book1, SSADCategory, book4));
+
+//        prining all books
+        System.out.println("\n\tTesting get all books function:\n");
+        System.out.println(db.books.read());
+
+        System.out.println("\n\tTesting get only SSAD books function:\n");
+        System.out.println(SSADCategory.read());
+
+//
+//        testing parents functionality
         List<Parent> parents = admin.getParents();
         par = parents.get(0);
 //        find, book and rate tutor
         Tutor tut = par.filter(par.createFilter("ByName bob")).get(0);
 
-        System.out.println("\n\tTesting book tutor:");
+        System.out.println("\n\tTesting booking a tutor:");
         par.sendRequest(tut, "can i have a lesson at 5 pm today?");
         System.out.println(tut.getRequests().get(0) + " - received requests");
 
