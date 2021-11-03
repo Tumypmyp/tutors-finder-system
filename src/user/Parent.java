@@ -1,9 +1,9 @@
 package user;
 
-import user.book.Readable;
-import user.filter.Filter;
-import user.filter.FilterByName;
-import user.filter.FilterByRating;
+import book.Readable;
+import filter.Filter;
+import filter.FilterByName;
+import filter.FilterByRating;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package user.book;
+package book;
 
 import java.util.ArrayList;
 import java.util.List;

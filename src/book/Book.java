@@ -1,4 +1,4 @@
-package user.book;
+package book;
 
 public class Book implements Readable {
     public String name;

@@ -1,4 +1,4 @@
-package user.filter;
+package filter;
 
 import user.Tutor;
 

@@ -1,8 +1,8 @@
 package user;
 
-import user.book.Book;
-import user.book.Category;
-import user.book.Readable;
+import book.Book;
+import book.Category;
+import book.Readable;
 
 import java.util.List;
 
@@ -11,8 +11,8 @@ public class Admin extends User {
         super(username, password, db);
     }
 
-    public User addTutor(String username, String password) {
-        return db.register(username, password, "Tutor");
+    public Tutor addTutor(String username, String password) {
+        return (Tutor)db.register(username, password, "Tutor");
     }
 
     public Book makeBook(String name, String author, int yearPublished, int size) {
