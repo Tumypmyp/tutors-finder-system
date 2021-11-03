@@ -10,7 +10,7 @@ public class DataBase {
     private HashMap<String, User> users = new HashMap<>();
     private List<Tutor> tutors = new ArrayList<>();
     private List<Parent> parents = new ArrayList<>();
-    public List<Book> books = new ArrayList<>();
+    public Readable books;
 
     User login(String username, String password) {
         if (users.get(username) != null && users.get(username).checkPassword(password)) {

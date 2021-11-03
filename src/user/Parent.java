@@ -41,7 +41,7 @@ public class Parent extends User {
         return null;
     }
 
-    public List<Book> searchBook(String name) {
+    public Readable getBooks() {
         return db.books;
     }
 

@@ -11,10 +11,13 @@ public class Admin extends User {
         return db.register(username, password, "Tutor");
     }
 
-    public Book addBook(String name, String author, int yearPublished, int size) {
-        Book book = new Book(name, author, yearPublished, size);
-        db.books.add(book);
-        return book;
+    public Book makeBook(String name, String author, int yearPublished, int size) {
+        return new Book(name, author, yearPublished, size);
+    }
+
+    public Category makeCategory(String name, List<Readable> c) {
+        return new Category(name, c);
+
     }
 
     public List<Parent> getParents() {

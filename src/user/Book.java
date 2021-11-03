@@ -1,6 +1,6 @@
 package user;
 
-public class Book {
+public class Book implements Readable {
     public String name;
     public String author;
     public int yearPublished;
@@ -11,6 +11,10 @@ public class Book {
         this.author = author;
         this.yearPublished = yearPublished;
         this.size = size;
+    }
+
+    public String read() {
+        return name + " " + author;
     }
 
 }
