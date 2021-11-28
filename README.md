@@ -4,65 +4,105 @@
 ![UML diagram of the code](tutors-finder-system.png)
 
 # Report
+## Initial task
+This private tutor system will help to find tuition teachers from nearby locations. Teachers can also get a student just by logging onto the website and setting up the profile. In the personal tutor finder system, there are three entities namely, Admin, Parents, and Tutor. Admin can login, manage tutor by adding new teachers and update their profiles. Admin can also manage E-books by adding new books to the library. Admin can also check for the registered parents. Admin will register tutors and credentials will be shared with tutors by Email. Parents can register and login, tutors can be viewed by parents. Parents can filter and select the tutor and after selecting
+parents will raise the request of the demo lecture. After attending the lecture, they can book the tutor online, rate the tutor and view the E-Books. The tutor can login by
+using credentials that will be provided by mail. They can check for the request for a demo lecture and accept the request. They can also check the booking done. They need to set their profile. This private tuition system can help the tutors to get students and parents to find the best tutors for their children.
 ## Description of the work done
-Our team implemented **books** and **categories** in the system. The user can read a **book** or **category** of books. A **category** can be read by reading all the books contained in the category. Also, **category** can have **nested categories**, and **nested categories** should be read when the parent **category** read as well.
+Our team implemented **filters** to help parents filter lists of tutors and find their best-fit for their purposes. **Filters** can filter tutors by such criteria as rating, age, gender, and name.
 ## WHAT pattern did we choose to implement the feature?
-Out of 5 patterns given:
-- Adapter
-- Bridge
-- Composite
-- Decorator
-- Flyweight
+Out of 10 patterns given:
+- Chain of Responsibility
+- Command
+- Iterator
+- Mediator
+- Memento
+- Observer
+- State
+- Strategy
+- Template Method
+- Visitor
 
-we chose **COMPOSITE** pattern for implementing our feature.
-## WHY did we choose composite pattern?
-We should have a common interface for both books and categories. Composite pattern satisfies our need because we can treat both book and category as one object of type `Readable` which allows us to read the object. Even if the category has nested books and categories, the composite pattern provides us with the possibility to read the category as it was one object.
+we chose **STRATEGY** pattern for implementing our feature.
+## WHY did we choose strategy pattern?
+In case of filters, we should have variation of, basically, the same algorithm but with different filter criteria which could be switched in runtime. Strategy pattern solves the problem by providing a possibility to variate the behaviour of the filter object by substituting instances of filter classes.
 ## HOW did we implement the feature?
-The UML diagram for the composite pattern is provided on the general UML diagram of the project and highlighted with red color. 
+The UML diagram for the strategy pattern is provided on the general UML diagram of the project and highlighted with red color. 
 
 
-We implemented 3 classes for our feature: `Readable`, `Category`, and `Book`. 
-### Readable
-`Readable` is an interface with one method - `read()`, this method returns all the titles in the readable object as a String. The class is located in `src/book/Readable.java`.
-### Category
-`Category` implements `Readable` interface, so it has a method `read()`, also it has a name and collection `content` of readable objects. When `read()` is called, it inserts the name of the category in the returned String and the result of read() for each object in the `content` collection. The class is located in `src/book/Category.java`.
-#### Source code for read() method in the Category class
+We implemented 5 classes for our feature: `StrategyFilter`, `StrategyFilterByRating`, `StrategyFilterByAge`, `StrategyFilterByGender`, and `StrategyFilterByName`. Also, the `StrategyFilter lastStrategyFilter` field in `Parent` class was added. That field will be used by Parent's `filter()` method.
+### StrategyFilter
+`StrategyFilter` is an interface with one method - `filter(tutor)`, this method returns boolean value(does certain tutor fit or not). The method checks `tutor` by condition defined in derived classes. The class is located in `src/filter/StrategyFilter.java`.
+### StrategyFilterByRating
+`StrategyFilterByRating` implements `StrategyFilter` interface. It filters by rating in range [`from`;`to`]. The class is located in `src/filter/StrategyFilterByRating.java`.
+#### Source code for filter(tutor) method in the StrategyFilterByRating class
 ```
-public String read() {
-        StringBuilder result = new StringBuilder();
-        for (Readable r : content) {
-            result.append(r.read()).append(",\n");
+@Override
+public boolean filter(Tutor tutor) {
+        return from <= tutor.getRating() && tutor.getRating() <= to;
+}
+```
+### StrategyFilterByAge
+`StrategyFilterByAge` implements `StrategyFilter` interface. It filters by age in range [`from`;`to`]. The class is located in `src/filter/StrategyFilterByAge.java`.
+#### Source code for filter(tutor) method in the StrategyFilterByAge class
+```
+@Override
+public boolean filter(Tutor tutor) {
+        return from <= tutor.getAge() && tutor.getAge() <= to;
+}
+```
+### StrategyFilterByGender
+`StrategyFilterByGender` implements `StrategyFilter` interface. It filters by gender checking that tutor's gender is in the list of genders. The class is located in `src/filter/StrategyFilterByGender.java`.
+#### Source code for filter(tutor) method in the StrategyFilterByGender class
+```
+@Override
+public boolean filter(Tutor tutor) {
+        return genders.contains(tutor.getGender());
+}
+```
+### StrategyFilterByName
+`StrategyFilterByName` implements `StrategyFilter` interface. It filters by name _lexicographically_. The class is located in `src/filter/StrategyFilterByName.java`.
+#### Source code for filter(tutor) method in the StrategyFilterByName class
+```
+@Override
+public boolean filter(Tutor tutor) {
+        return name.compareToIgnoreCase(tutor.getName()) <= 0 &&
+                (name + "zzz").compareToIgnoreCase(tutor.getName()) > 0;
+}
+```
+### filter() in Parent class
+This method filters tutors with `StrategyFilter lastStrategyFilter` which is set by `setStrategyFilter(...)`.
+#### Source code for filter() method in the Parent class
+```
+// Uses filter method for all tutors according to the chosen STRATEGY
+    public List<Tutor> filter() {
+        List<Tutor> tutors = db.getTutors();
+        List<Tutor> result = new ArrayList<>();
+        for (var t : tutors) {
+            if (lastStrategyFilter.filter(t))
+                result.add(t);
         }
-        return "(" + name + ":\n" + result.toString() + ")";
-    }
-```
-### Book
-`Book` also implements `Readable` interface, it has `read()` and fields containing information about the book. `read()` method of the `Book` class returns String with name and author of the book. The class is located in `src/book/Book.java`.
-#### Source code for read() method in the Book class
-```
-public String read() {
-        return name + " " + author;
+        return result;
     }
 ```
 ### Feature usage
-Readable objects stored in the `Database` class. Finally, the functionality for reading is used in Main.java. It adds books and outputs the result of the `read()` method in the console.
-#### Part of the Main.java where the feature is used(lines 52-68)
+The `Parent` class has `setStrategyFilter(...)` method which allows parents to set their own filter by criterion. Then, Parent's `filter()` method uses field `lastStrategyFilter` to filter list of tutors. The test cases are provided in `src/Main.java`
+#### Part of the Main.java where the feature is used(lines 30-45)
 ```
-//        testing of added COMPOSITE pattern
-//        making books and categories
-        Book book1 = admin.makeBook("The History of Science", "Merlin H.", 2013, 300);
-        Book book2 = admin.makeBook("Design Patterns", "Erich Gamma", 1994, 395);
-        Book book3 = admin.makeBook("Design Patterns (Java)", "Erich Gamma", 2003, 455);
-        Category SSADCategory = admin.makeCategory("SSAD", Arrays.asList(book2, book3));
-        Book book4 = admin.makeBook("book1", "author1", 2000, 200);
-        db.books = new Category("all books", Arrays.asList(book1, SSADCategory, book4));
+System.out.println("\n\tTesting StrategyFilterByAge: default from 0 to 100:");
+par.setStrategyFilter(FilterType.AGE);
+List<Tutor> res = par.filter();
+par.printListOfTutors(res);
 
-//        printing all books
-        System.out.println("\n\tTesting get all books function with COMPOSITE pattern:\n");
-        System.out.println(db.books.read());
+System.out.println("\n\tTesting StrategyFilterByRating: from 5 to 7");
+par.setStrategyFilter(FilterType.RATING, 5, 7);
+par.printListOfTutors(par.filter());
 
-//        printing books from a category
-        System.out.println("\n\tTesting get books from a category function:\n");
-        System.out.println(SSADCategory.read());
-//        end of COMPOSITE pattern testing
+System.out.println("\n\tTesting StrategyFilterByName: starts with \"bo\"");
+par.setStrategyFilter(FilterType.NAME, "bo");
+par.printListOfTutors(par.filter());
+
+System.out.println("\n\tTesting StrategyFilterByGender: trans or female");
+par.setStrategyFilter(FilterType.GENDER, Gender.TRANS, Gender.FEMALE);
+par.printListOfTutors(par.filter());
 ```
