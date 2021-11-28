@@ -13,7 +13,7 @@ public class Admin extends User {
     }
 
     public Tutor addTutor(String username, String password) {
-        return (Tutor)db.register(username, password, "Tutor");
+        return (Tutor) db.register(username, password, UserType.TUTOR);
     }
 
     public Book makeBook(String name, String author, int yearPublished, int size) {

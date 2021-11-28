@@ -1,10 +1,7 @@
 package database;
 
 import book.Readable;
-import user.Admin;
-import user.Parent;
-import user.Tutor;
-import user.User;
+import user.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,7 +21,7 @@ public class DataBase {
     }
     
     //    Factory method
-    public User register(String username, String password, String userType) {
+    public User register(String username, String password, UserType userType) {
         if (users.get(username) != null) {
             System.out.println("Error: username already exists");
             return null;
@@ -35,16 +32,16 @@ public class DataBase {
         }
         User user = null;
         switch (userType) {
-            case "Parent" -> {
+            case PARENT -> {
                 Parent parent = new Parent(username, password, this);
                 parents.add(parent);
                 user = parent;
             }
-            case "Tutor" -> {
+            case TUTOR -> {
                 user = new Tutor(username, password, this);
                 tutors.add((Tutor) user);
             }
-            case "Admin" -> user = new Admin(username, password, this);
+            case ADMIN -> user = new Admin(username, password, this);
             default -> {
                 System.out.println("Unexpected value of userType: " + userType);
                 return null;

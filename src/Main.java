@@ -2,10 +2,7 @@ import book.Book;
 import book.Category;
 import database.DataBase;
 import filter.FilterType;
-import user.Admin;
-import user.Gender;
-import user.Parent;
-import user.Tutor;
+import user.*;
 
 import java.util.Arrays;
 import java.util.List;
@@ -16,7 +13,7 @@ public class Main {
         DataBase db = new DataBase();
 
 //        adding admin
-        Admin admin = (Admin) db.register("administrator", "987654321", "Admin");
+        Admin admin = (Admin) db.register("administrator", "987654321", UserType.ADMIN);
         admin.addTutor("Misha", "11111111");
 
 //        adding Tutors
@@ -25,12 +22,12 @@ public class Main {
         admin.addTutor("borisss", "12345678").setName("Boris Ivanovich").setRating(4).setAge(30).setGender(Gender.TRANS);
         admin.addTutor("romadoma", "12345678").setName("Roman").setRating(5).setAge(27).setGender(Gender.TRANS);
 
-
 //        adding a tutor using FACTORY method
-        Tutor tutor = (Tutor) db.register("vanyusha", "12345678", "Tutor");
+        Tutor tutor = (Tutor) db.register("vanyusha", "12345678", UserType.TUTOR);
         tutor.setName("Vanya").setRating(6).addRating(3).setAge(22);//setGender(Gender.FEMALE)
+
 //        adding a parent using FACTORY method
-        Parent par = (Parent) db.register("sonya", "12345678", "Parent");
+        Parent par = (Parent) db.register("sonya", "12345678", UserType.PARENT);
 
 //        filtering tutors by rating using FACTORY method
         System.out.println("\n\tTesting filterByRating using FACTORY method (default from 0 to 100):");
@@ -65,7 +62,7 @@ public class Main {
 
 //        printing all books
         System.out.println("\n\tTesting get all books function with COMPOSITE pattern:\n");
-        System.out.println(db.books.read());
+        System.out.println(par.getBooks().read());
 
 //        printing books from a category
         System.out.println("\n\tTesting get books from a category function:\n");
