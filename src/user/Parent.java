@@ -2,10 +2,7 @@ package user;
 
 import book.Readable;
 import database.DataBase;
-import filter.FilterType;
-import filter.StrategyFilter;
-import filter.StrategyFilterByName;
-import filter.StrategyFilterByRating;
+import filter.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,7 +46,9 @@ public class Parent extends User {
                     return new StrategyFilterByRating(Integer.parseInt(s[1]), Integer.parseInt(s[2]));
                 return new StrategyFilterByRating();
             case AGE:
-
+                return new StrategyFilterByAge();
+            case GENDER:
+                return new StrategyFilterByGender();
             default:
                 return null;
         }
