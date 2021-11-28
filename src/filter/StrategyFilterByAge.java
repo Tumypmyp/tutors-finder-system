@@ -2,7 +2,7 @@ package filter;
 
 import user.Tutor;
 
-public class StrategyFilterByAge implements StrategyFilter{
+public class StrategyFilterByAge implements StrategyFilter {
     private final int from;
     private final int to;
 

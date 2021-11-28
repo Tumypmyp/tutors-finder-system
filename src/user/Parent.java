@@ -5,6 +5,7 @@ import database.DataBase;
 import filter.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Parent extends User {
@@ -13,12 +14,11 @@ public class Parent extends User {
 
     public Parent(String username, String password, DataBase db) {
         super(username, password, db);
+        setStrategyFilter(FilterType.NAME);
     }
 
-    //
+    // Uses filter method for all tutors according to the chosen STRATEGY
     public List<Tutor> filter() {
-        if (lastStrategyFilter == null)
-            return new ArrayList<>();
         List<Tutor> tutors = db.getTutors();
         List<Tutor> result = new ArrayList<>();
         for (var t : tutors) {
@@ -26,14 +26,14 @@ public class Parent extends User {
                 result.add(t);
         }
         return result;
-
     }
 
+    // setting new STRATEGY
     public void setStrategyFilter(FilterType filterType, Object... args) {
         lastStrategyFilter = createStrategyFilter(filterType, args);
     }
 
-    //    Factory method
+    // FACTORY method
     public StrategyFilter createStrategyFilter(FilterType filterType, Object... args) {
         switch (filterType) {
             case NAME:
@@ -49,7 +49,7 @@ public class Parent extends User {
                     return new StrategyFilterByAge((int) args[0], (int) args[1]);
                 return new StrategyFilterByAge();
             case GENDER:
-                return new StrategyFilterByGender((Gender[]) args);
+                return new StrategyFilterByGender(Arrays.copyOf(args, args.length, Gender[].class));
             default:
                 return null;
         }
@@ -71,10 +71,11 @@ public class Parent extends User {
         bookedTutors.add(tutor);
     }
 
-
     public void printListOfTutors(List<Tutor> list) {
+        System.out.println("username (Name Age Gender): Rating");
         for (Tutor tutor : list) {
-            System.out.println(tutor.getUsername() + " " + tutor.getRating());
+            System.out.println(tutor.getUsername() + " (" + tutor.getName() + " " + tutor.getAge()
+                    + " " + tutor.getGender() + "): " + tutor.getRating());
         }
     }
 }

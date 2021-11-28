@@ -11,7 +11,6 @@ public class Tutor extends User {
     private int age;
     private Gender gender;
 
-    //    private Gender gender;
     private List<String> requests = new ArrayList<>();
 
     public Tutor(String username, String password, DataBase db) {

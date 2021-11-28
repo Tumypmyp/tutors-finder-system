@@ -27,5 +27,4 @@ public class Admin extends User {
     public List<Parent> getParents() {
         return db.getParents();
     }
-
 }

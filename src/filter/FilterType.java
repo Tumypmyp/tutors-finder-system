@@ -5,4 +5,5 @@ public enum FilterType {
     NAME,
     RATING,
     GENDER
+    // easy to add a SUBJECT filter
 }

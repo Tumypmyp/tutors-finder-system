@@ -19,7 +19,7 @@ public class DataBase {
         }
         return null;
     }
-    
+
     //    Factory method
     public User register(String username, String password, UserType userType) {
         if (users.get(username) != null) {
@@ -43,9 +43,9 @@ public class DataBase {
             }
             case ADMIN -> user = new Admin(username, password, this);
             default -> {
-                System.out.println("Unexpected value of userType: " + userType);
                 return null;
             }
+
         }
         users.put(username, user);
         return user;

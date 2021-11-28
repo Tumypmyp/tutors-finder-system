@@ -1,51 +1,66 @@
-import book.Book;
-import book.Category;
 import database.DataBase;
 import filter.FilterType;
 import user.*;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-//        creating database
+//        Creating database
         DataBase db = new DataBase();
 
-//        adding admin
+//        Adding admin
         Admin admin = (Admin) db.register("administrator", "987654321", UserType.ADMIN);
-        admin.addTutor("Misha", "11111111");
 
-//        adding Tutors
+//        Admin can add Tutors
+        admin.addTutor("mishanya2000", "11111111").setRating(6);
         admin.addTutor("alex228", "12345678").setName("Alexander").setRating(9).setAge(25).setGender(Gender.MALE);
         admin.addTutor("bob1337", "12345678").setName("Bob").setRating(7).setAge(21).setGender(Gender.INTERSEX);
-        admin.addTutor("borisss", "12345678").setName("Boris Ivanovich").setRating(4).setAge(30).setGender(Gender.TRANS);
-        admin.addTutor("romadoma", "12345678").setName("Roman").setRating(5).setAge(27).setGender(Gender.TRANS);
+        admin.addTutor("bbborisss", "12345678").setName("Boris Ivanovich").setRating(4).setAge(30).setGender(Gender.TRANS);
+        admin.addTutor("romadoma", "12345678").setName("Roman").setRating(5).setGender(Gender.TRANS).setAge(27);
 
-//        adding a tutor using FACTORY method
+//        Tutors are added by a FACTORY method - register
         Tutor tutor = (Tutor) db.register("vanyusha", "12345678", UserType.TUTOR);
-        tutor.setName("Vanya").setRating(6).addRating(3).setAge(22);//setGender(Gender.FEMALE)
+        tutor.setName("Vanya").setRating(6).addRating(3).setAge(22).setGender(Gender.FEMALE);
 
-//        adding a parent using FACTORY method
+//        Parents are added by the same FACTORY method - register
         Parent par = (Parent) db.register("sonya", "12345678", UserType.PARENT);
 
-//        filtering tutors by rating using FACTORY method
-        System.out.println("\n\tTesting filterByRating using FACTORY method (default from 0 to 100):");
-        par.setStrategyFilter(FilterType.RATING);
+
+        System.out.println("\n\tTesting StrategyFilterByAge: default from 0 to 100:");
+        par.setStrategyFilter(FilterType.AGE);
         List<Tutor> res = par.filter();
         par.printListOfTutors(res);
 
-        System.out.println("\n\tTesting filterByRating - from 5 to 8:");
-//        par.createStrategyFilter(FilterType.RATING, "ByRating 5 8 true");
+        System.out.println("\n\tTesting StrategyFilterByRating: from 5 to 7");
+        par.setStrategyFilter(FilterType.RATING, 5, 7);
+        par.printListOfTutors(par.filter());
+
+        System.out.println("\n\tTesting StrategyFilterByName: starts with \"bo\"");
+        par.setStrategyFilter(FilterType.NAME, "bo");
+        par.printListOfTutors(par.filter());
+
+        System.out.println("\n\tTesting StrategyFilterByGender: trans or female");
+        par.setStrategyFilter(FilterType.GENDER, Gender.TRANS, Gender.FEMALE);
+        par.printListOfTutors(par.filter());
+
+        return;
+        /*/
+//        filtering tutors by rating using FACTORY method
+        System.out.println("\n\tTesting StrategyFilterByRating using FACTORY method (default from 0 to 100):");
+        par.setStrategyFilter(FilterType.RATING);
+        par.printListOfTutors(par.filter());
+
+        System.out.println("\n\tTesting StrategyFilterByRating - from 5 to 8:");
         par.setStrategyFilter(FilterType.RATING, 5, 8);
         par.printListOfTutors(par.filter());
 
 //        filtering tutors by name using FACTORY method
-        System.out.println("\n\tTesting filterByName - default all:");
+        System.out.println("\n\tTesting StrategyFilterByName - default all:");
         par.setStrategyFilter(FilterType.NAME);
         par.printListOfTutors(par.filter());
 
-        System.out.println("\n\tTesting filterByName - with beginning \"bo\":");
+        System.out.println("\n\tTesting StrategyFilterByName - with beginning \"bo\":");
         par.setStrategyFilter(FilterType.NAME, "bo");
         par.printListOfTutors(par.filter());
 //
@@ -61,11 +76,11 @@ public class Main {
         db.books = new Category("all books", Arrays.asList(book1, SSADCategory, book4));
 
 //        printing all books
-        System.out.println("\n\tTesting get all books function with COMPOSITE pattern:\n");
+        System.out.println("\n\tTesting get all books function with COMPOSITE pattern:");
         System.out.println(par.getBooks().read());
 
 //        printing books from a category
-        System.out.println("\n\tTesting get books from a category function:\n");
+        System.out.println("\n\tTesting get books from a category function:");
         System.out.println(SSADCategory.read());
 //        end of COMPOSITE pattern testing
 
@@ -86,5 +101,7 @@ public class Main {
         par.rateTutor(tut, 50);
 //        updated rating
         par.printListOfTutors(par.filter());
+
+         //*/
     }
 }
