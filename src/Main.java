@@ -46,7 +46,9 @@ public class Main {
 
         return;
         /*/
+//        Testing from previous assignments: FACTORY and COMPOSITE patterns
 //        filtering tutors by rating using FACTORY method
+
         System.out.println("\n\tTesting StrategyFilterByRating using FACTORY method (default from 0 to 100):");
         par.setStrategyFilter(FilterType.RATING);
         par.printListOfTutors(par.filter());
