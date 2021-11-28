@@ -8,6 +8,9 @@ public class StrategyFilterByName implements StrategyFilter {
     public StrategyFilterByName(String name) {
         this.name = name;
     }
+    public StrategyFilterByName() {
+        this.name = "";
+    }
 
     @Override
     public boolean filter(Tutor tutor) {

@@ -29,26 +29,27 @@ public class Parent extends User {
 
     }
 
-    public void createStrategyFilter(FilterType filterType, String str) {
-        lastStrategyFilter = factoryStrategyFilter(filterType, str);
+    public void setStrategyFilter(FilterType filterType, Object... args) {
+        lastStrategyFilter = createStrategyFilter(filterType, args);
     }
 
-        //    Factory method
-    public StrategyFilter factoryStrategyFilter(FilterType filterType, String str) {
-        String[] s = str.split("\\s+");
+    //    Factory method
+    public StrategyFilter createStrategyFilter(FilterType filterType, Object... args) {
         switch (filterType) {
             case NAME:
-                if (s.length == 2)
-                    return new StrategyFilterByName(s[1]);
-                return new StrategyFilterByName("");
+                if (0 < args.length)
+                    return new StrategyFilterByName((String) args[0]);
+                return new StrategyFilterByName();
             case RATING:
-                if (s.length == 4)
-                    return new StrategyFilterByRating(Integer.parseInt(s[1]), Integer.parseInt(s[2]));
+                if (1 < args.length)
+                    return new StrategyFilterByRating((int) args[0], (int) args[1]);
                 return new StrategyFilterByRating();
             case AGE:
+                if (1 < args.length)
+                    return new StrategyFilterByAge((int) args[0], (int) args[1]);
                 return new StrategyFilterByAge();
             case GENDER:
-                return new StrategyFilterByGender();
+                return new StrategyFilterByGender((Gender[]) args);
             default:
                 return null;
         }

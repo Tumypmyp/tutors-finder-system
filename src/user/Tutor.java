@@ -19,6 +19,10 @@ public class Tutor extends User {
         this.name = username;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public int getRating() {
         return rating;
     }
@@ -39,27 +43,28 @@ public class Tutor extends User {
         return requests;
     }
 
-    public void setName(String name) {
+    public Tutor setName(String name) {
         this.name = name;
+        return this;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setRating(int rating) {
+    public Tutor setRating(int rating) {
         this.rating = rating;
+        return this;
     }
 
-    public void setAge(int age) {
+    public Tutor setAge(int age) {
         this.age = age;
+        return this;
     }
 
-    public void addRating(int rate) {
-        this.rating += rate;
-    }
-
-    public void setGender(Gender gender) {
+    public Tutor setGender(Gender gender) {
         this.gender = gender;
+        return this;
+    }
+
+    public Tutor addRating(int rate) {
+        this.rating += rate;
+        return this;
     }
 }

@@ -2,8 +2,8 @@ import book.Book;
 import book.Category;
 import database.DataBase;
 import filter.FilterType;
-import filter.StrategyFilter;
 import user.Admin;
+import user.Gender;
 import user.Parent;
 import user.Tutor;
 
@@ -20,35 +20,36 @@ public class Main {
         admin.addTutor("Misha", "11111111");
 
 //        adding Tutors
-        admin.addTutor("Alex", "12345678").setRating(9);
-        admin.addTutor("Bob", "12345678").setRating(7);
-        admin.addTutor("Boris", "12345678").setRating(4);
-        admin.addTutor("Roma", "12345678").setRating(5);
+        admin.addTutor("alex228", "12345678").setName("Alexander").setRating(9).setAge(25).setGender(Gender.MALE);
+        admin.addTutor("bob1337", "12345678").setName("Bob").setRating(7).setAge(21).setGender(Gender.INTERSEX);
+        admin.addTutor("borisss", "12345678").setName("Boris Ivanovich").setRating(4).setAge(30).setGender(Gender.TRANS);
+        admin.addTutor("romadoma", "12345678").setName("Roman").setRating(5).setAge(27).setGender(Gender.TRANS);
 
 
 //        adding a tutor using FACTORY method
-        Tutor tutor = (Tutor) db.register("Vova", "12345678", "Tutor");
-        tutor.setRating(6);
+        Tutor tutor = (Tutor) db.register("vanyusha", "12345678", "Tutor");
+        tutor.setName("Vanya").setRating(6).addRating(3).setAge(22);//setGender(Gender.FEMALE)
 //        adding a parent using FACTORY method
-        Parent par = (Parent) db.register("Sonya", "12345678", "Parent");
+        Parent par = (Parent) db.register("sonya", "12345678", "Parent");
 
 //        filtering tutors by rating using FACTORY method
         System.out.println("\n\tTesting filterByRating using FACTORY method (default from 0 to 100):");
-        par.createStrategyFilter(FilterType.RATING, "ByRating");
+        par.setStrategyFilter(FilterType.RATING);
         List<Tutor> res = par.filter();
         par.printListOfTutors(res);
 
         System.out.println("\n\tTesting filterByRating - from 5 to 8:");
-        par.createStrategyFilter(FilterType.RATING, "ByRating 5 8 true");
+//        par.createStrategyFilter(FilterType.RATING, "ByRating 5 8 true");
+        par.setStrategyFilter(FilterType.RATING, 5, 8);
         par.printListOfTutors(par.filter());
 
 //        filtering tutors by name using FACTORY method
         System.out.println("\n\tTesting filterByName - default all:");
-        par.createStrategyFilter(FilterType.NAME, "ByName");
+        par.setStrategyFilter(FilterType.NAME);
         par.printListOfTutors(par.filter());
 
         System.out.println("\n\tTesting filterByName - with beginning \"bo\":");
-        par.createStrategyFilter(FilterType.NAME, "ByName bo");
+        par.setStrategyFilter(FilterType.NAME, "bo");
         par.printListOfTutors(par.filter());
 //
 
@@ -76,7 +77,7 @@ public class Main {
         List<Parent> parents = admin.getParents();
         par = parents.get(0);
 //        find, book and rate tutor functions
-        par.createStrategyFilter(FilterType.NAME, "ByName bob");
+        par.setStrategyFilter(FilterType.NAME, "bob");
         Tutor tut = par.filter().get(0);
 
         System.out.println("\n\tTesting booking a tutor:");

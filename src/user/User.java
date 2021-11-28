@@ -2,13 +2,15 @@ package user;
 
 import database.DataBase;
 
+import java.util.Locale;
+
 public class User {
     private final String username;
     private String password;
     protected DataBase db;
 
     User(String username, String password, DataBase db) {
-        this.username = username;
+        this.username = username.toLowerCase();
         this.password = password;
         this.db = db;
     }
