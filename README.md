@@ -102,7 +102,7 @@ System.out.println("\n\tTesting StrategyFilterByName: starts with \"bo\"");
 par.setStrategyFilter(FilterType.NAME, "bo");
 par.printListOfTutors(par.filter());
 
-System.out.println("\n\tTesting StrategyFilterByGender: trans or female");
-par.setStrategyFilter(FilterType.GENDER, Gender.TRANS, Gender.FEMALE);
+System.out.println("\n\tTesting StrategyFilterByGender: non-binary or female");
+par.setStrategyFilter(FilterType.GENDER, Gender.NON_BINARY, Gender.FEMALE);
 par.printListOfTutors(par.filter());
 ```

@@ -15,9 +15,9 @@ public class Main {
 //        Admin can add Tutors
         admin.addTutor("mishanya2000", "11111111").setRating(6);
         admin.addTutor("alex228", "12345678").setName("Alexander").setRating(9).setAge(25).setGender(Gender.MALE);
-        admin.addTutor("bob1337", "12345678").setName("Bob").setRating(7).setAge(21).setGender(Gender.INTERSEX);
-        admin.addTutor("bbborisss", "12345678").setName("Boris Ivanovich").setRating(4).setAge(30).setGender(Gender.TRANS);
-        admin.addTutor("romadoma", "12345678").setName("Roman").setRating(5).setGender(Gender.TRANS).setAge(27);
+        admin.addTutor("bob1337", "12345678").setName("Bob").setRating(7).setAge(21).setGender(Gender.MALE);
+        admin.addTutor("bbborisss", "12345678").setName("Boris Ivanovich").setRating(4).setAge(30).setGender(Gender.NON_BINARY);
+        admin.addTutor("romadoma", "12345678").setName("Roman").setRating(5).setGender(Gender.NON_BINARY).setAge(27);
 
 //        Tutors are added by a FACTORY method - register
         Tutor tutor = (Tutor) db.register("vanyusha", "12345678", UserType.TUTOR);
@@ -40,8 +40,8 @@ public class Main {
         par.setStrategyFilter(FilterType.NAME, "bo");
         par.printListOfTutors(par.filter());
 
-        System.out.println("\n\tTesting StrategyFilterByGender: trans or female");
-        par.setStrategyFilter(FilterType.GENDER, Gender.TRANS, Gender.FEMALE);
+        System.out.println("\n\tTesting StrategyFilterByGender: non-binary or female");
+        par.setStrategyFilter(FilterType.GENDER, Gender.NON_BINARY, Gender.FEMALE);
         par.printListOfTutors(par.filter());
 
         return;
