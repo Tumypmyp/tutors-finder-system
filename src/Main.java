@@ -1,7 +1,8 @@
 import book.Book;
 import book.Category;
 import database.DataBase;
-import filter.Filter;
+import filter.FilterType;
+import filter.StrategyFilter;
 import user.Admin;
 import user.Parent;
 import user.Tutor;
@@ -33,19 +34,22 @@ public class Main {
 
 //        filtering tutors by rating using FACTORY method
         System.out.println("\n\tTesting filterByRating using FACTORY method (default from 0 to 100):");
-        Filter f = par.createFilter("ByRating");
-        List<Tutor> res = par.filter(f);
+        par.createStrategyFilter(FilterType.RATING, "ByRating");
+        List<Tutor> res = par.filter();
         par.printListOfTutors(res);
 
         System.out.println("\n\tTesting filterByRating - from 5 to 8:");
-        par.printListOfTutors(par.filter(par.createFilter("ByRating 5 8 true")));
+        par.createStrategyFilter(FilterType.RATING, "ByRating 5 8 true");
+        par.printListOfTutors(par.filter());
 
 //        filtering tutors by name using FACTORY method
         System.out.println("\n\tTesting filterByName - default all:");
-        par.printListOfTutors(par.filter(par.createFilter("ByName")));
+        par.createStrategyFilter(FilterType.NAME, "ByName");
+        par.printListOfTutors(par.filter());
 
         System.out.println("\n\tTesting filterByName - with beginning \"bo\":");
-        par.printListOfTutors(par.filter(par.createFilter("ByName bo")));
+        par.createStrategyFilter(FilterType.NAME, "ByName bo");
+        par.printListOfTutors(par.filter());
 //
 
 
@@ -72,7 +76,8 @@ public class Main {
         List<Parent> parents = admin.getParents();
         par = parents.get(0);
 //        find, book and rate tutor functions
-        Tutor tut = par.filter(par.createFilter("ByName bob")).get(0);
+        par.createStrategyFilter(FilterType.NAME, "ByName bob");
+        Tutor tut = par.filter().get(0);
 
         System.out.println("\n\tTesting booking a tutor:");
         par.sendRequest(tut, "can i have a lesson at 5 pm today?");
@@ -82,6 +87,6 @@ public class Main {
         par.bookTutor(tut);
         par.rateTutor(tut, 50);
 //        updated rating
-        par.printListOfTutors(par.filter(f));
+        par.printListOfTutors(par.filter());
     }
 }

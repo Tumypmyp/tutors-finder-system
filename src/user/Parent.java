@@ -2,45 +2,57 @@ package user;
 
 import book.Readable;
 import database.DataBase;
-import filter.Filter;
-import filter.FilterByName;
-import filter.FilterByRating;
+import filter.FilterType;
+import filter.StrategyFilter;
+import filter.StrategyFilterByName;
+import filter.StrategyFilterByRating;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Parent extends User {
-    Filter lastFilter;
+    StrategyFilter lastStrategyFilter;
     List<Tutor> bookedTutors = new ArrayList<>();
 
     public Parent(String username, String password, DataBase db) {
         super(username, password, db);
     }
 
-    public Filter getLastFilter() {
-        return lastFilter;
-    }
-
-    public List<Tutor> filter(Filter filter) {
+    //
+    public List<Tutor> filter() {
+        if (lastStrategyFilter == null)
+            return new ArrayList<>();
         List<Tutor> tutors = db.getTutors();
-        lastFilter = filter;
-        return filter.getTutors(tutors);
+        List<Tutor> result = new ArrayList<>();
+        for (var t : tutors) {
+            if (lastStrategyFilter.filter(t))
+                result.add(t);
+        }
+        return result;
+
     }
 
-//    Factory method
-    public Filter createFilter(String str) {
-        String[] s = str.split("\\s+");
-        if (s[0].equals("ByName")) {
-            if (s.length == 2)
-                return new FilterByName(s[1]);
-            return new FilterByName("");
-        } else if (s[0].equals("ByRating")) {
-            if (s.length == 4)
-                return new FilterByRating(Integer.parseInt(s[1]), Integer.parseInt(s[2]), Boolean.parseBoolean(s[3]));
-            return new FilterByRating();
-        }
+    public void createStrategyFilter(FilterType filterType, String str) {
+        lastStrategyFilter = factoryStrategyFilter(filterType, str);
+    }
 
-        return null;
+        //    Factory method
+    public StrategyFilter factoryStrategyFilter(FilterType filterType, String str) {
+        String[] s = str.split("\\s+");
+        switch (filterType) {
+            case NAME:
+                if (s.length == 2)
+                    return new StrategyFilterByName(s[1]);
+                return new StrategyFilterByName("");
+            case RATING:
+                if (s.length == 4)
+                    return new StrategyFilterByRating(Integer.parseInt(s[1]), Integer.parseInt(s[2]));
+                return new StrategyFilterByRating();
+            case AGE:
+
+            default:
+                return null;
+        }
     }
 
     public Readable getBooks() {
