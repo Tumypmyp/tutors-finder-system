@@ -2,20 +2,21 @@ package filter;
 
 import user.Tutor;
 
+import java.util.Locale;
+
 public class StrategyFilterByName implements StrategyFilter {
     private final String name;
 
     public StrategyFilterByName(String name) {
-        this.name = name;
+        this.name = name.toLowerCase();
     }
 
     public StrategyFilterByName() {
-        this.name = "";
+        this("");
     }
 
     @Override
     public boolean filter(Tutor tutor) {
-        return name.compareToIgnoreCase(tutor.getName()) <= 0 &&
-                (name + "zzz").compareToIgnoreCase(tutor.getName()) > 0;
+        return tutor.getName().toLowerCase().contains(name);
     }
 }
