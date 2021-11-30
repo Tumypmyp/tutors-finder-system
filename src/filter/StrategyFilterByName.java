@@ -2,8 +2,6 @@ package filter;
 
 import user.Tutor;
 
-import java.util.Locale;
-
 public class StrategyFilterByName implements StrategyFilter {
     private final String name;
 
